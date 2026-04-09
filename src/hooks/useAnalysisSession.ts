@@ -1067,17 +1067,19 @@ export function useAnalysisSession() {
 
         scheduleNextCameraFrame();
       } catch (error) {
+        const message =
+          error instanceof Error ? error.message : String(error);
         console.error("Frame processing failed", error);
         addAlert(
           "warning",
           "Processing stalled",
-          "A frame-processing error occurred. The loop is retrying automatically.",
+          `A frame-processing error occurred. ${message}`,
           timestamp,
         );
         setLiveState((previous) => ({
           ...previous,
           mode: "camera",
-          statusText: "Recovering from processing error",
+          statusText: `Recovering: ${message.slice(0, 72)}`,
         }));
         scheduleNextCameraFrame();
       }

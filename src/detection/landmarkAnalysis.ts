@@ -46,10 +46,16 @@ export interface FaceSignalSnapshot {
 }
 
 function toPoint(
-  landmark: NormalizedLandmark,
+  landmark: NormalizedLandmark | undefined,
   width: number,
   height: number,
 ): Point2D {
+  if (!landmark) {
+    return {
+      x: 0,
+      y: 0,
+    };
+  }
   return {
     x: landmark.x * width,
     y: landmark.y * height,
@@ -71,7 +77,9 @@ function getPoints(
   width: number,
   height: number,
 ): Point2D[] {
-  return indices.map((index) => getPoint(landmarks, index, width, height));
+  return indices
+    .filter((index) => landmarks[index] !== undefined)
+    .map((index) => getPoint(landmarks, index, width, height));
 }
 
 function boundingBox(points: Point2D[]): {
@@ -116,9 +124,6 @@ function computeEyeGeometry(
   const p6 = getPoint(landmarks, ring[5], width, height);
   const cornerStart = getPoint(landmarks, corners[0], width, height);
   const cornerEnd = getPoint(landmarks, corners[1], width, height);
-  const iris = getPoints(landmarks, irisIndices, width, height);
-  const irisCenter = midpoint(iris[0], iris[2] ?? iris[0]);
-  const irisDiameterPx = computeIrisDiameter(iris);
   const vertical1 = distance(p2, p6);
   const vertical2 = distance(p3, p5);
   const eyeWidth = distance(p1, p4);
@@ -126,6 +131,11 @@ function computeEyeGeometry(
   const opennessRatio = safeDivide(vertical1 + vertical2, 2 * eyeWidth, 0);
   const eyeOutline = getPoints(landmarks, outline, width, height);
   const eyeCenter = midpoint(cornerStart, cornerEnd);
+  const iris = getPoints(landmarks, irisIndices, width, height);
+  const irisCenter =
+    iris.length >= 3 ? midpoint(iris[0], iris[2]) : eyeCenter;
+  const irisDiameterPx =
+    iris.length >= 2 ? computeIrisDiameter(iris) : eyeWidth * 0.34;
 
   return {
     eyeMetrics: {
