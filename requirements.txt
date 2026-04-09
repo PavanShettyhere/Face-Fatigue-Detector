@@ -1,0 +1,4 @@
+# This project uses a Node.js + React + TypeScript stack rather than Python.
+# Install dependencies with:
+#   npm install
+# Runtime and dev dependencies are declared in package.json.

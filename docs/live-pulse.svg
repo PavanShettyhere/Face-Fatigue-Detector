@@ -1,0 +1,27 @@
+<svg width="1280" height="360" viewBox="0 0 1280 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .pulse { animation: pulse 3s ease-in-out infinite; transform-origin: center; }
+    .wave { animation: wave 4s linear infinite; }
+    @keyframes pulse {
+      0%, 100% { transform: scaleY(0.85); opacity: 0.7; }
+      50% { transform: scaleY(1.15); opacity: 1; }
+    }
+    @keyframes wave {
+      0% { transform: translateX(0px); }
+      50% { transform: translateX(-16px); }
+      100% { transform: translateX(0px); }
+    }
+  </style>
+  <rect width="1280" height="360" rx="28" fill="#071019"/>
+  <text x="64" y="78" fill="#F4F7FA" font-family="Segoe UI, sans-serif" font-size="34" font-weight="700">Animated Reference Preview</text>
+  <text x="64" y="112" fill="#97AAC2" font-family="Segoe UI, sans-serif" font-size="18">A lightweight motion mock for the dashboard hero section on GitHub.</text>
+  <g class="wave">
+    <path d="M76 252C162 198 236 300 318 246C404 190 470 304 552 240C634 178 706 300 786 238C866 178 938 300 1024 240C1098 188 1164 250 1204 228" stroke="#70E1F5" stroke-width="8" stroke-linecap="round"/>
+    <path d="M76 286C162 254 238 316 318 282C406 248 474 324 552 274C636 220 706 320 788 274C866 230 942 312 1022 272C1100 234 1168 290 1204 266" stroke="#FF5D73" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <g class="pulse">
+    <circle cx="980" cy="146" r="64" fill="#14273A" stroke="#28465E"/>
+    <circle cx="980" cy="146" r="24" fill="#FFBF69"/>
+    <circle cx="980" cy="146" r="46" stroke="#72EFDD" stroke-width="4"/>
+  </g>
+</svg>

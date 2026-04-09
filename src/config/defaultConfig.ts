@@ -1,0 +1,70 @@
+import { AppConfig } from "../types/domain";
+
+export const defaultConfig: AppConfig = {
+  camera: {
+    width: 1280,
+    height: 720,
+    frameRateCap: 24,
+    brightnessCompensation: 0,
+    contrastCompensation: 0,
+  },
+  detector: {
+    blinkClosed: 0.72,
+    blinkOpen: 0.38,
+    blinkMinDurationMs: 60,
+    blinkMaxDurationMs: 900,
+    fullBlinkDepth: 0.85,
+    reopeningStartDelta: 0.04,
+    yawnOpen: 0.55,
+    yawnClose: 0.32,
+    yawnMinDurationMs: 750,
+    talkingRejectDurationMs: 280,
+    perclosClosureThreshold: 0.7,
+    perclosWindowMs: 60000,
+    smoothingAlpha: 0.28,
+    pupilLowConfidenceThreshold: 0.45,
+    prolongedClosureMs: 1000,
+    microsleepMs: 2000,
+  },
+  alerts: {
+    perclosWarning: 0.22,
+    perclosCritical: 0.32,
+    fatigueWarning: 0.55,
+    fatigueCritical: 0.72,
+    lowTrackingConfidence: 0.45,
+    lowLightingScore: 0.35,
+    prolongedClosureMs: 1200,
+    microsleepMs: 2000,
+    yawnWarningPerMinute: 3,
+  },
+  fatigueWeights: {
+    perclos: 0.32,
+    prolongedClosures: 0.18,
+    slowReopenings: 0.14,
+    yawnRate: 0.12,
+    gazeInstability: 0.09,
+    nodding: 0.07,
+    blinkRateDeviation: 0.08,
+  },
+  faceLandmarker: {
+    wasmRoot: "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm",
+    modelAssetPath: "/models/face_landmarker.task",
+    minFaceDetectionConfidence: 0.5,
+    minFacePresenceConfidence: 0.5,
+    minTrackingConfidence: 0.5,
+  },
+  ui: {
+    historyDurationMs: 180000,
+    largeText: false,
+    darkMode: true,
+    confidenceBadges: true,
+    tutorialMode: true,
+    soundAlerts: false,
+  },
+};
+
+export const STORAGE_KEYS = {
+  config: "face-fatigue-detector-config",
+  profiles: "face-fatigue-detector-profiles",
+  activeProfileId: "face-fatigue-detector-active-profile",
+};

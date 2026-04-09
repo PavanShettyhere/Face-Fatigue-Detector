@@ -1,0 +1,24 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="720" rx="32" fill="#071019"/>
+  <rect x="48" y="48" width="1184" height="624" rx="28" fill="#0E1B28" stroke="#203548"/>
+  <text x="88" y="104" fill="#F4F7FA" font-family="Segoe UI, sans-serif" font-size="34" font-weight="700">Replay and Review Mock</text>
+  <rect x="88" y="140" width="744" height="420" rx="24" fill="url(#panel)"/>
+  <rect x="866" y="140" width="326" height="420" rx="24" fill="#121F2C"/>
+  <rect x="88" y="586" width="1104" height="44" rx="20" fill="#13283A"/>
+  <circle cx="352" cy="608" r="18" fill="#FF5D73"/>
+  <circle cx="548" cy="608" r="18" fill="#FF8FAB"/>
+  <circle cx="736" cy="608" r="18" fill="#7AE582"/>
+  <text x="110" y="172" fill="#97AAC2" font-family="Segoe UI, sans-serif" font-size="18">Processed replay with event markers and frame stepping.</text>
+  <g font-family="Segoe UI, sans-serif">
+    <text x="894" y="182" fill="#F4F7FA" font-size="24" font-weight="700">Selected event</text>
+    <rect x="894" y="212" width="270" height="86" rx="18" fill="#14273A"/><text x="920" y="246" fill="#FF5D73" font-size="20" font-weight="700">Blink #24</text><text x="920" y="278" fill="#97AAC2" font-size="17">Duration 182 ms · reopen 34 ms</text>
+    <rect x="894" y="316" width="270" height="86" rx="18" fill="#14273A"/><text x="920" y="350" fill="#FF8FAB" font-size="20" font-weight="700">Yawn #3</text><text x="920" y="382" fill="#97AAC2" font-size="17">Duration 1.8 s · max 0.82</text>
+    <rect x="894" y="420" width="270" height="86" rx="18" fill="#14273A"/><text x="920" y="454" fill="#7AE582" font-size="20" font-weight="700">Closure #2</text><text x="920" y="486" fill="#97AAC2" font-size="17">1.4 s · prolonged closure</text>
+  </g>
+  <defs>
+    <linearGradient id="panel" x1="88" y1="140" x2="832" y2="560" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#15293B"/>
+      <stop offset="1" stop-color="#0A1118"/>
+    </linearGradient>
+  </defs>
+</svg>

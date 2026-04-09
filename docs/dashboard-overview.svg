@@ -1,0 +1,49 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="720" rx="32" fill="#071019"/>
+  <rect x="24" y="24" width="1232" height="672" rx="28" fill="#0E1B28" stroke="#203548"/>
+  <rect x="48" y="48" width="1184" height="96" rx="24" fill="#122536"/>
+  <text x="80" y="96" fill="#F4F7FA" font-family="Segoe UI, sans-serif" font-size="36" font-weight="700">Face Fatigue Detector</text>
+  <text x="80" y="126" fill="#97AAC2" font-family="Segoe UI, sans-serif" font-size="18">Local webcam analytics, blink timing, pupil estimation, yawning, PERCLOS, and fatigue indicators.</text>
+  <rect x="48" y="168" width="736" height="408" rx="24" fill="#0B131D" stroke="#28465E"/>
+  <rect x="816" y="168" width="416" height="408" rx="24" fill="#101B27" stroke="#28465E"/>
+  <rect x="48" y="600" width="568" height="72" rx="18" fill="#122536"/>
+  <rect x="632" y="600" width="600" height="72" rx="18" fill="#122536"/>
+  <rect x="84" y="208" width="664" height="328" rx="18" fill="url(#feed)"/>
+  <ellipse cx="332" cy="362" rx="66" ry="22" stroke="#70E1F5" stroke-width="4"/>
+  <ellipse cx="500" cy="362" rx="66" ry="22" stroke="#70E1F5" stroke-width="4"/>
+  <circle cx="332" cy="362" r="12" fill="#FFBF69"/>
+  <circle cx="500" cy="362" r="12" fill="#FFBF69"/>
+  <ellipse cx="416" cy="458" rx="96" ry="44" stroke="#FF8FAB" stroke-width="4"/>
+  <rect x="96" y="220" width="640" height="304" rx="18" stroke="#7AE582" stroke-width="3"/>
+  <text x="84" y="560" fill="#97AAC2" font-family="Segoe UI, sans-serif" font-size="18">Live overlay with face box, eye contours, pupils, mouth contour, alerts, and tracking status.</text>
+  <g font-family="Segoe UI, sans-serif">
+    <text x="848" y="216" fill="#F4F7FA" font-size="26" font-weight="700">Live Metrics</text>
+    <rect x="848" y="236" width="160" height="90" rx="18" fill="#14273A"/>
+    <rect x="1020" y="236" width="160" height="90" rx="18" fill="#14273A"/>
+    <rect x="848" y="340" width="160" height="90" rx="18" fill="#14273A"/>
+    <rect x="1020" y="340" width="160" height="90" rx="18" fill="#14273A"/>
+    <rect x="848" y="444" width="332" height="100" rx="18" fill="#14273A"/>
+    <text x="868" y="266" fill="#97AAC2" font-size="16">PERCLOS</text>
+    <text x="868" y="305" fill="#FF5D73" font-size="34" font-weight="700">24.1%</text>
+    <text x="1040" y="266" fill="#97AAC2" font-size="16">Blink rate</text>
+    <text x="1040" y="305" fill="#70E1F5" font-size="34" font-weight="700">14/min</text>
+    <text x="868" y="370" fill="#97AAC2" font-size="16">Pupil avg</text>
+    <text x="868" y="409" fill="#FFBF69" font-size="34" font-weight="700">5.3 px</text>
+    <text x="1040" y="370" fill="#97AAC2" font-size="16">Fatigue</text>
+    <text x="1040" y="409" fill="#7AE582" font-size="34" font-weight="700">41%</text>
+    <text x="868" y="480" fill="#97AAC2" font-size="16">Tracking confidence</text>
+    <text x="868" y="522" fill="#F4F7FA" font-size="32" font-weight="700">83%</text>
+  </g>
+  <path d="M84 636H578" stroke="#2A4760" stroke-width="8" stroke-linecap="round"/>
+  <path d="M84 636C160 620 224 650 300 632C376 614 424 656 500 628C540 615 560 626 578 620" stroke="#70E1F5" stroke-width="6" stroke-linecap="round"/>
+  <text x="84" y="624" fill="#F4F7FA" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700">Eye Openness</text>
+  <path d="M664 636H1200" stroke="#2A4760" stroke-width="8" stroke-linecap="round"/>
+  <path d="M664 636C740 624 810 630 880 612C960 592 1030 674 1110 640C1150 624 1180 604 1200 618" stroke="#FF5D73" stroke-width="6" stroke-linecap="round"/>
+  <text x="664" y="624" fill="#F4F7FA" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700">PERCLOS Timeline</text>
+  <defs>
+    <linearGradient id="feed" x1="84" y1="208" x2="748" y2="536" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#14293A"/>
+      <stop offset="1" stop-color="#0A1118"/>
+    </linearGradient>
+  </defs>
+</svg>

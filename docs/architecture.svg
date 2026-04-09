@@ -1,0 +1,22 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="720" rx="32" fill="#071019"/>
+  <text x="72" y="88" fill="#F4F7FA" font-family="Segoe UI, sans-serif" font-size="38" font-weight="700">Runtime Architecture</text>
+  <g font-family="Segoe UI, sans-serif">
+    <rect x="72" y="142" width="240" height="112" rx="22" fill="#13283A"/><text x="104" y="190" fill="#70E1F5" font-size="24" font-weight="700">Webcam Capture</text><text x="104" y="224" fill="#97AAC2" font-size="18">MediaDevices + frame cap</text>
+    <rect x="360" y="142" width="240" height="112" rx="22" fill="#13283A"/><text x="398" y="190" fill="#70E1F5" font-size="24" font-weight="700">Landmarking</text><text x="398" y="224" fill="#97AAC2" font-size="18">MediaPipe Face Landmarker</text>
+    <rect x="648" y="142" width="240" height="112" rx="22" fill="#13283A"/><text x="684" y="190" fill="#70E1F5" font-size="24" font-weight="700">Signal Extraction</text><text x="684" y="224" fill="#97AAC2" font-size="18">Eyes, mouth, head pose</text>
+    <rect x="936" y="142" width="240" height="112" rx="22" fill="#13283A"/><text x="970" y="190" fill="#70E1F5" font-size="24" font-weight="700">Pupil ROI</text><text x="970" y="224" fill="#97AAC2" font-size="18">Threshold + blob fit</text>
+    <rect x="216" y="336" width="260" height="118" rx="22" fill="#162C22"/><text x="250" y="384" fill="#7AE582" font-size="24" font-weight="700">State Machines</text><text x="250" y="418" fill="#A8C8B2" font-size="18">Blink, yawn, closure, nodding</text>
+    <rect x="510" y="336" width="260" height="118" rx="22" fill="#2B2115"/><text x="542" y="384" fill="#FFBF69" font-size="24" font-weight="700">Rolling Metrics</text><text x="542" y="418" fill="#D7C0A1" font-size="18">PERCLOS, variability, fatigue</text>
+    <rect x="804" y="336" width="260" height="118" rx="22" fill="#2E1C23"/><text x="838" y="384" fill="#FF8FAB" font-size="24" font-weight="700">Session Store</text><text x="838" y="418" fill="#D3B0BC" font-size="18">Frames, events, alerts, summary</text>
+    <rect x="216" y="536" width="260" height="112" rx="22" fill="#13283A"/><text x="264" y="582" fill="#70E1F5" font-size="24" font-weight="700">Overlay Canvas</text><text x="264" y="616" fill="#97AAC2" font-size="18">Video + landmarks + status</text>
+    <rect x="510" y="536" width="260" height="112" rx="22" fill="#13283A"/><text x="566" y="582" fill="#70E1F5" font-size="24" font-weight="700">Dashboard UI</text><text x="566" y="616" fill="#97AAC2" font-size="18">Cards, charts, controls</text>
+    <rect x="804" y="536" width="260" height="112" rx="22" fill="#13283A"/><text x="856" y="582" fill="#70E1F5" font-size="24" font-weight="700">Exports</text><text x="856" y="616" fill="#97AAC2" font-size="18">CSV, JSON, snapshots, recording</text>
+  </g>
+  <g stroke="#2B4861" stroke-width="6" stroke-linecap="round">
+    <path d="M312 198H360"/><path d="M600 198H648"/><path d="M888 198H936"/>
+    <path d="M768 254V304"/><path d="M480 254V304"/><path d="M1032 254V304"/>
+    <path d="M346 454V512"/><path d="M640 454V512"/><path d="M934 454V512"/>
+    <path d="M476 392H510"/><path d="M770 392H804"/>
+  </g>
+</svg>

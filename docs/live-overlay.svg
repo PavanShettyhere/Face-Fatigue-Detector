@@ -1,0 +1,28 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="720" rx="32" fill="#09131D"/>
+  <rect x="84" y="64" width="1112" height="592" rx="28" fill="#0B141D" stroke="#203548" stroke-width="2"/>
+  <rect x="132" y="112" width="1016" height="496" rx="24" fill="url(#bg)"/>
+  <rect x="226" y="146" width="814" height="408" rx="20" stroke="#7AE582" stroke-width="4"/>
+  <polyline points="374,308 406,288 440,284 474,300 470,328 440,340 402,338 374,320" stroke="#70E1F5" stroke-width="4" fill="none"/>
+  <polyline points="810,308 842,288 876,284 910,300 906,328 876,340 838,338 810,320" stroke="#70E1F5" stroke-width="4" fill="none"/>
+  <circle cx="440" cy="312" r="22" stroke="#72EFDD" stroke-width="3"/>
+  <circle cx="876" cy="312" r="22" stroke="#72EFDD" stroke-width="3"/>
+  <circle cx="442" cy="314" r="12" stroke="#FFBF69" stroke-width="3"/>
+  <circle cx="874" cy="314" r="12" stroke="#FFBF69" stroke-width="3"/>
+  <path d="M516 444C560 410 714 410 760 444C706 506 570 506 516 444Z" stroke="#FF8FAB" stroke-width="4" fill="none"/>
+  <rect x="160" y="502" width="286" height="78" rx="18" fill="#0C1720" stroke="#1E3345"/>
+  <text x="184" y="534" fill="#F6FFF8" font-family="Segoe UI, sans-serif" font-size="22" font-weight="700">Tracking active</text>
+  <text x="184" y="566" fill="#97AAC2" font-family="Segoe UI, sans-serif" font-size="18">Blink open · Yawn idle · Confidence 83%</text>
+  <rect x="946" y="146" width="160" height="64" rx="18" fill="#111F2C" stroke="#28465E"/>
+  <text x="966" y="184" fill="#FFBF69" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700">Pupil ok</text>
+  <rect x="946" y="224" width="160" height="64" rx="18" fill="#111F2C" stroke="#28465E"/>
+  <text x="966" y="262" fill="#70E1F5" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700">Blink watch</text>
+  <rect x="946" y="302" width="160" height="64" rx="18" fill="#111F2C" stroke="#28465E"/>
+  <text x="966" y="340" fill="#FF5D73" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700">Low light</text>
+  <defs>
+    <linearGradient id="bg" x1="132" y1="112" x2="1148" y2="608" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#15293B"/>
+      <stop offset="1" stop-color="#0A1118"/>
+    </linearGradient>
+  </defs>
+</svg>

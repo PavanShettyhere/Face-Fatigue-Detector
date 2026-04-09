@@ -1,0 +1,13 @@
+<svg width="1280" height="420" viewBox="0 0 1280 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="420" rx="32" fill="#071019"/>
+  <text x="72" y="88" fill="#F4F7FA" font-family="Segoe UI, sans-serif" font-size="36" font-weight="700">Calibration Flow</text>
+  <g font-family="Segoe UI, sans-serif">
+    <rect x="72" y="144" width="248" height="184" rx="24" fill="#13283A"/><text x="110" y="198" fill="#70E1F5" font-size="24" font-weight="700">1. Neutral face</text><text x="110" y="236" fill="#97AAC2" font-size="18">Sit centered and relaxed</text><text x="110" y="268" fill="#97AAC2" font-size="18">Eyes open, mouth relaxed</text>
+    <rect x="384" y="144" width="248" height="184" rx="24" fill="#162C22"/><text x="416" y="198" fill="#7AE582" font-size="24" font-weight="700">2. Five-second sample</text><text x="416" y="236" fill="#A8C8B2" font-size="18">Capture eye openness</text><text x="416" y="268" fill="#A8C8B2" font-size="18">Mouth baseline and lighting</text>
+    <rect x="696" y="144" width="248" height="184" rx="24" fill="#2B2115"/><text x="736" y="198" fill="#FFBF69" font-size="24" font-weight="700">3. Personalized thresholds</text><text x="736" y="236" fill="#D7C0A1" font-size="18">Blink depth and closure</text><text x="736" y="268" fill="#D7C0A1" font-size="18">Pupil baseline and mouth range</text>
+    <rect x="1008" y="144" width="200" height="184" rx="24" fill="#2E1C23"/><text x="1042" y="198" fill="#FF8FAB" font-size="24" font-weight="700">4. Save profile</text><text x="1042" y="236" fill="#D3B0BC" font-size="18">Reusable per user</text><text x="1042" y="268" fill="#D3B0BC" font-size="18">Stored locally</text>
+  </g>
+  <g stroke="#2B4861" stroke-width="6" stroke-linecap="round">
+    <path d="M320 236H384"/><path d="M632 236H696"/><path d="M944 236H1008"/>
+  </g>
+</svg>
