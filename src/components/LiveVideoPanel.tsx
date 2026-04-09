@@ -36,7 +36,14 @@ export function LiveVideoPanel({
 
       <div className="video-surface">
         <canvas ref={canvasRef} className="video-surface__canvas" />
-        <video ref={videoRef} className="video-surface__hidden-video" playsInline muted />
+        <video
+          ref={videoRef}
+          className="video-surface__hidden-video"
+          playsInline
+          muted
+          autoPlay
+          aria-hidden="true"
+        />
         <AlertStack alerts={state.alerts} />
       </div>
     </section>
