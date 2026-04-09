@@ -176,7 +176,6 @@ export function useAnalysisSession() {
   const streamRef = useRef<MediaStream | null>(null);
   const animationFrameRef = useRef<number | null>(null);
   const lastProcessMsRef = useRef(0);
-  const lastVideoTimeRef = useRef(-1);
   const lastChartUpdateRef = useRef(0);
   const sessionStoreRef = useRef(new SessionStore());
   const baselineRef = useRef<BaselineState>({
@@ -432,7 +431,6 @@ export function useAnalysisSession() {
       mediaRecorderRef.current.stop();
     }
     mediaRecorderRef.current = null;
-    lastVideoTimeRef.current = -1;
     lastProcessMsRef.current = 0;
     setRecording(false);
     setLiveState((previous) => ({
@@ -544,13 +542,6 @@ export function useAnalysisSession() {
         return;
       }
 
-      if (video.currentTime === lastVideoTimeRef.current) {
-        animationFrameRef.current = requestAnimationFrame((nextTimestamp) => {
-          void processFaceFrame(nextTimestamp);
-        });
-        return;
-      }
-
       const targetInterval = 1000 / Math.max(1, config.camera.frameRateCap);
       if (timestamp - lastProcessMsRef.current < targetInterval) {
         animationFrameRef.current = requestAnimationFrame((nextTimestamp) => {
@@ -560,7 +551,6 @@ export function useAnalysisSession() {
       }
 
       lastProcessMsRef.current = timestamp;
-      lastVideoTimeRef.current = video.currentTime;
 
       if (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight) {
         canvas.width = video.videoWidth;
