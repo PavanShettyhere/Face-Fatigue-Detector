@@ -175,8 +175,19 @@ export function useAnalysisSession() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const animationFrameRef = useRef<number | null>(null);
+  const videoFrameCallbackRef = useRef<number | null>(null);
+  const processFaceFrameRef = useRef<((timestamp: number) => Promise<void>) | null>(
+    null,
+  );
   const lastProcessMsRef = useRef(0);
   const lastChartUpdateRef = useRef(0);
+  const liveStateRef = useRef<LiveAnalysisState>(initialLiveState);
+  const calibrationRef = useRef<CalibrationState>({
+    active: false,
+    startedAt: 0,
+    name: "Default profile",
+    samples: [],
+  });
   const sessionStoreRef = useRef(new SessionStore());
   const baselineRef = useRef<BaselineState>({
     eyeOpenness: 0.28,
@@ -218,6 +229,14 @@ export function useAnalysisSession() {
     () => profiles.find((profile) => profile.id === activeProfileId) ?? null,
     [profiles, activeProfileId],
   );
+
+  useEffect(() => {
+    liveStateRef.current = liveState;
+  }, [liveState]);
+
+  useEffect(() => {
+    calibrationRef.current = calibration;
+  }, [calibration]);
 
   const applyCalibrationBaseline = useCallback((profile: CalibrationProfile | null) => {
     if (!profile) {
@@ -339,6 +358,18 @@ export function useAnalysisSession() {
     if (animationFrameRef.current !== null) {
       cancelAnimationFrame(animationFrameRef.current);
       animationFrameRef.current = null;
+    }
+    const video = videoRef.current as
+      | (HTMLVideoElement & {
+          cancelVideoFrameCallback?: (handle: number) => void;
+        })
+      | null;
+    if (
+      videoFrameCallbackRef.current !== null &&
+      video?.cancelVideoFrameCallback
+    ) {
+      video.cancelVideoFrameCallback(videoFrameCallbackRef.current);
+      videoFrameCallbackRef.current = null;
     }
   }, []);
 
@@ -515,8 +546,32 @@ export function useAnalysisSession() {
     [activeProfileId, applyCalibrationBaseline],
   );
 
+  const scheduleNextCameraFrame = useCallback(() => {
+    const video = videoRef.current as
+      | (HTMLVideoElement & {
+          requestVideoFrameCallback?: (
+            callback: (now: number, metadata: unknown) => void,
+          ) => number;
+        })
+      | null;
+
+    if (video?.requestVideoFrameCallback) {
+      videoFrameCallbackRef.current = video.requestVideoFrameCallback(() => {
+        videoFrameCallbackRef.current = null;
+        void processFaceFrameRef.current?.(performance.now());
+      });
+      return;
+    }
+
+    animationFrameRef.current = requestAnimationFrame((nextTimestamp) => {
+      void processFaceFrameRef.current?.(nextTimestamp);
+    });
+  }, []);
+
   const processFaceFrame = useCallback(
     async (timestamp: number) => {
+      const liveState = liveStateRef.current;
+      const calibration = calibrationRef.current;
       const canvas = canvasRef.current;
       const video = videoRef.current;
       if (!canvas || !video) {
@@ -536,42 +591,27 @@ export function useAnalysisSession() {
         video.videoWidth === 0 ||
         video.videoHeight === 0
       ) {
-        animationFrameRef.current = requestAnimationFrame((nextTimestamp) => {
-          void processFaceFrame(nextTimestamp);
-        });
+        scheduleNextCameraFrame();
         return;
       }
 
       const targetInterval = 1000 / Math.max(1, config.camera.frameRateCap);
       if (timestamp - lastProcessMsRef.current < targetInterval) {
-        animationFrameRef.current = requestAnimationFrame((nextTimestamp) => {
-          void processFaceFrame(nextTimestamp);
-        });
+        scheduleNextCameraFrame();
         return;
       }
 
-      lastProcessMsRef.current = timestamp;
+      try {
+        lastProcessMsRef.current = timestamp;
 
-      if (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight) {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-      }
+        if (
+          canvas.width !== video.videoWidth ||
+          canvas.height !== video.videoHeight
+        ) {
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+        }
 
-      drawAnalysisFrame({
-        context,
-        canvas,
-        video,
-        brightnessCompensation: config.camera.brightnessCompensation,
-        contrastCompensation: config.camera.contrastCompensation,
-        signals: null,
-        state: liveState,
-      });
-
-      const landmarker = await faceLandmarkerPromiseRef.current;
-      const result = detectFaceForVideo(landmarker, video, performance.now());
-      const signals = computeFaceSignals(result, canvas.width, canvas.height);
-
-      if (!signals) {
         drawAnalysisFrame({
           context,
           canvas,
@@ -579,40 +619,53 @@ export function useAnalysisSession() {
           brightnessCompensation: config.camera.brightnessCompensation,
           contrastCompensation: config.camera.contrastCompensation,
           signals: null,
-          state: {
-            ...liveState,
+          state: liveState,
+        });
+
+        const landmarker = await faceLandmarkerPromiseRef.current;
+        const result = detectFaceForVideo(landmarker, video, performance.now());
+        const signals = computeFaceSignals(result, canvas.width, canvas.height);
+
+        if (!signals) {
+          drawAnalysisFrame({
+            context,
+            canvas,
+            video,
+            brightnessCompensation: config.camera.brightnessCompensation,
+            contrastCompensation: config.camera.contrastCompensation,
+            signals: null,
+            state: {
+              ...liveState,
+              face: {
+                ...liveState.face,
+                faceDetected: false,
+              },
+            },
+          });
+
+          addAlert(
+            "warning",
+            "Tracking lost",
+            "Face landmarks are not stable enough for analysis.",
+            timestamp,
+          );
+          setLiveState((previous) => ({
+            ...previous,
+            mode: "camera",
+            statusText: "Waiting for a clear face view",
             face: {
-              ...liveState.face,
+              ...previous.face,
               faceDetected: false,
             },
-          },
-        });
+          }));
 
-        addAlert(
-          "warning",
-          "Tracking lost",
-          "Face landmarks are not stable enough for analysis.",
-          timestamp,
-        );
-        setLiveState((previous) => ({
-          ...previous,
-          mode: "camera",
-          statusText: "Waiting for a clear face view",
-          face: {
-            ...previous.face,
-            faceDetected: false,
-          },
-        }));
+          scheduleNextCameraFrame();
+          return;
+        }
 
-        animationFrameRef.current = requestAnimationFrame((nextTimestamp) => {
-          void processFaceFrame(nextTimestamp);
-        });
-        return;
-      }
-
-      const lighting = computeLightingAndBlur(context, signals.face.faceBox);
-      signals.face.motionBlurScore = lighting.blurScore;
-      signals.face.occlusionScore = lighting.occlusionScore;
+        const lighting = computeLightingAndBlur(context, signals.face.faceBox);
+        signals.face.motionBlurScore = lighting.blurScore;
+        signals.face.occlusionScore = lighting.occlusionScore;
 
       const leftPupil = estimatePupilDiameter({
         context,
@@ -1012,21 +1065,36 @@ export function useAnalysisSession() {
         setSessionSummary(sessionStoreRef.current.buildSummary());
       }
 
-      animationFrameRef.current = requestAnimationFrame((nextTimestamp) => {
-        void processFaceFrame(nextTimestamp);
-      });
+        scheduleNextCameraFrame();
+      } catch (error) {
+        console.error("Frame processing failed", error);
+        addAlert(
+          "warning",
+          "Processing stalled",
+          "A frame-processing error occurred. The loop is retrying automatically.",
+          timestamp,
+        );
+        setLiveState((previous) => ({
+          ...previous,
+          mode: "camera",
+          statusText: "Recovering from processing error",
+        }));
+        scheduleNextCameraFrame();
+      }
     },
     [
       addAlert,
-      calibration.active,
-      calibration.startedAt,
       config,
-      liveState,
       publishFrame,
       pushChartPoints,
+      scheduleNextCameraFrame,
       updateCalibration,
     ],
   );
+
+  useEffect(() => {
+    processFaceFrameRef.current = processFaceFrame;
+  }, [processFaceFrame]);
 
   const processDemoFrame = useCallback(
     (timestamp: number) => {
@@ -1148,14 +1216,12 @@ export function useAnalysisSession() {
       mode: "camera",
       statusText: "Camera ready",
     }));
-    animationFrameRef.current = requestAnimationFrame((timestamp) => {
-      void processFaceFrame(timestamp);
-    });
+    scheduleNextCameraFrame();
   }, [
     config.camera,
-    processFaceFrame,
     refreshDevices,
     resetSessionStore,
+    scheduleNextCameraFrame,
     stopLoop,
     stopMediaStream,
   ]);
