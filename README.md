@@ -94,7 +94,7 @@ Recommended local path:
 public/models/face_landmarker.task
 ```
 
-The app tries that local model path first. If it is missing, it falls back to the hosted MediaPipe model URL.
+The app validates that local file as a real MediaPipe task archive first. If it is missing or Vite serves an HTML fallback instead, the app automatically falls back to the hosted MediaPipe model URL.
 
 ### 3. Start the app
 

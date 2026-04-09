@@ -583,7 +583,12 @@ export function useAnalysisSession() {
       }
 
       if (!faceLandmarkerPromiseRef.current) {
-        faceLandmarkerPromiseRef.current = createFaceLandmarker(config);
+        faceLandmarkerPromiseRef.current = createFaceLandmarker(config).catch(
+          (error) => {
+            faceLandmarkerPromiseRef.current = null;
+            throw error;
+          },
+        );
       }
 
       if (

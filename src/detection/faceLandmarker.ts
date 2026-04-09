@@ -8,18 +8,55 @@ import { AppConfig } from "../types/domain";
 
 let cachedLandmarker: FaceLandmarker | null = null;
 
-async function resolveModelAssetPath(config: AppConfig): Promise<string> {
-  const localPath = config.faceLandmarker.modelAssetPath;
+const DEFAULT_MODEL_ASSET_PATH =
+  "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task";
+
+async function loadLocalModelBuffer(
+  localPath: string,
+): Promise<Uint8Array | null> {
   try {
-    const response = await fetch(localPath, { method: "HEAD" });
-    if (response.ok) {
-      return localPath;
+    const response = await fetch(localPath, {
+      method: "GET",
+      cache: "no-store",
+    });
+    if (!response.ok) {
+      return null;
     }
+
+    const contentType = response.headers.get("content-type") ?? "";
+    if (contentType.includes("text/html")) {
+      return null;
+    }
+
+    const buffer = await response.arrayBuffer();
+    const bytes = new Uint8Array(buffer.slice(0, 4));
+    const looksLikeZipArchive =
+      bytes.length >= 2 && bytes[0] === 0x50 && bytes[1] === 0x4b;
+
+    if (!looksLikeZipArchive) {
+      return null;
+    }
+
+    return new Uint8Array(buffer);
   } catch {
-    // Ignore and fall back to the hosted model path below.
+    return null;
+  }
+}
+
+async function resolveModelSource(
+  config: AppConfig,
+): Promise<{ modelAssetBuffer?: Uint8Array; modelAssetPath?: string }> {
+  const localPath = config.faceLandmarker.modelAssetPath;
+  const localBuffer = await loadLocalModelBuffer(localPath);
+  if (localBuffer) {
+    return {
+      modelAssetBuffer: localBuffer,
+    };
   }
 
-  return "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task";
+  return {
+    modelAssetPath: DEFAULT_MODEL_ASSET_PATH,
+  };
 }
 
 export async function createFaceLandmarker(
@@ -32,12 +69,10 @@ export async function createFaceLandmarker(
   const vision = await FilesetResolver.forVisionTasks(
     config.faceLandmarker.wasmRoot,
   );
-  const modelAssetPath = await resolveModelAssetPath(config);
+  const modelSource = await resolveModelSource(config);
 
   cachedLandmarker = await FaceLandmarker.createFromOptions(vision, {
-    baseOptions: {
-      modelAssetPath,
-    },
+    baseOptions: modelSource,
     runningMode: "VIDEO",
     numFaces: 1,
     outputFaceBlendshapes: true,
